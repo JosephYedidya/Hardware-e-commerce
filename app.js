@@ -17,9 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
   updateWishlistCount();
   updateComparisonBar();
   setupEventListeners();
-  
-  // Show promo banner after delay
-  if (!sessionStorage.getItem('promoShown')) {
+  setupMobileNav();
+
+  // Show promo banner after delay (only on weekends)
+  if (!sessionStorage.getItem('promoShown') && isWeekend()) {
     setTimeout(() => {
       document.getElementById('promoBanner').classList.add('visible');
     }, 3000);
@@ -28,11 +29,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
-  // Search functionality
-  document.getElementById('searchBar').addEventListener('input', (e) => {
-    searchQuery = e.target.value.toLowerCase();
-    renderProducts();
-  });
+  // Search functionality (desktop)
+  const searchBar = document.getElementById('searchBar');
+  if (searchBar) {
+    searchBar.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase();
+      renderProducts();
+    });
+  }
+  
+  // Search functionality (mobile)
+  const mobileSearchBar = document.getElementById('mobileSearchBar');
+  if (mobileSearchBar) {
+    mobileSearchBar.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase();
+      renderProducts();
+    });
+  }
 
   // Filter buttons
   document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -148,6 +161,12 @@ function sanitizeInput(str) {
   return div.innerHTML;
 }
 
+function isWeekend() {
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0 = Sunday, 6 = Saturday
+  return dayOfWeek === 0 || dayOfWeek === 6;
+}
+
 // ===== CART FUNCTIONS =====
 function addToCart(id, btn) {
   const product = productsData.find(p => p.id === id);
@@ -203,10 +222,19 @@ function saveCart() {
 }
 
 function updateCartBadge() {
-  const badge = document.getElementById('cartBadge');
+  const desktopBadge = document.getElementById('cartBadge');
+  const mobileBadge = document.getElementById('mobileCartBadge');
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-  badge.textContent = count;
-  badge.style.display = count > 0 ? 'flex' : 'none';
+  
+  if (desktopBadge) {
+    desktopBadge.textContent = count;
+    desktopBadge.style.display = count > 0 ? 'flex' : 'none';
+  }
+  
+  if (mobileBadge) {
+    mobileBadge.textContent = count;
+    mobileBadge.style.display = count > 0 ? 'flex' : 'none';
+  }
 }
 
 function renderCart() {
@@ -469,10 +497,20 @@ function filterByCategory(category) {
 
 // ===== THEME TOGGLE =====
 function toggleTheme() {
-  document.body.classList.toggle('dark-mode');
+  const isDarkMode = document.body.classList.toggle('dark-mode');
   const icon = document.getElementById('themeIcon');
-  icon.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-  localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  icon.textContent = isDarkMode ? '☀️' : '🌙';
+  localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  
+  // Add smooth transition to all elements
+  document.documentElement.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+  document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+  
+  // Remove transition after animation
+  setTimeout(() => {
+    document.documentElement.style.transition = '';
+    document.body.style.transition = '';
+  }, 300);
 }
 
 // Load saved theme
@@ -766,4 +804,76 @@ function confirmPayment() {
     btnLoading.style.display = 'none';
     
   }, 3000); // Simulate 3 second processing time
+}
+
+// ===== MOBILE NAVIGATION =====
+function setupMobileNav() {
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+  const mobileNavContent = document.getElementById('mobileNavContent');
+  
+  // Toggle mobile navigation when clicking hamburger button
+  hamburgerBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMobileNav();
+  });
+  
+  // Close mobile navigation when clicking outside the sidebar content
+  mobileNavOverlay.addEventListener('click', (e) => {
+    // Only close if clicking on the overlay area (not the content)
+    if (e.target === mobileNavOverlay) {
+      closeMobileNav();
+    }
+  });
+  
+  // Close mobile navigation when clicking on navigation links
+  const mobileNavLinks = mobileNavContent.querySelectorAll('a');
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closeMobileNav();
+    });
+  });
+  
+  // Close mobile navigation on window resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      closeMobileNav();
+    }
+  });
+}
+
+function toggleMobileNav() {
+  const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const isActive = mobileNavOverlay.classList.contains('active');
+  
+  if (isActive) {
+    closeMobileNav();
+  } else {
+    openMobileNav();
+  }
+}
+
+function openMobileNav() {
+  const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  
+  mobileNavOverlay.classList.add('active');
+  hamburgerBtn.classList.add('active');
+  hamburgerBtn.setAttribute('aria-expanded', 'true');
+  
+  // Prevent body scroll when menu is open
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobileNav() {
+  const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  
+  mobileNavOverlay.classList.remove('active');
+  hamburgerBtn.classList.remove('active');
+  hamburgerBtn.setAttribute('aria-expanded', 'false');
+  
+  // Restore body scroll
+  document.body.style.overflow = '';
 }

@@ -49,24 +49,28 @@
 <body>
 
 <header role="banner">
+  <!-- Logo -->
   <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" role="button" tabindex="0" aria-label="Retour à l'accueil">
     <span class="logo-icon">⚡</span>
     <span class="logo-text">Quincaillerie</span>
     <span class="logo-accent">Shop</span>
   </div>
   
+  <!-- Search Bar -->
   <div class="search-wrapper">
     <span class="search-icon" aria-hidden="true">🔍</span>
     <input type="search" id="searchBar" placeholder="Rechercher des outils..." aria-label="Rechercher des produits">
   </div>
 
-  <nav role="navigation" aria-label="Navigation principale">
+  <!-- Navigation Links -->
+  <nav role="navigation" aria-label="Navigation principale" id="mainNav">
     <a href="#accueil">Accueil</a>
     <a href="#categories">Catégories</a>
     <a href="#produits">Produits</a>
     <a href="#contact">Contact</a>
   </nav>
 
+  <!-- Action Buttons -->
   <button class="btn btn-outline" onclick="openCart()" style="position:relative" aria-label="Ouvrir le panier">
     🛒 Panier
     <span class="cart-badge" id="cartBadge" style="display:none" aria-live="polite">5</span>
@@ -76,10 +80,60 @@
     ❤️ <span id="wishlistCount">0</span>
   </button>
   
+  <!-- Theme Toggle -->
   <button class="btn theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Changer le thème">
     <span id="themeIcon">🌙</span>
   </button>
+
+  <!-- Hamburger Menu Button (Mobile Only) -->
+  <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
 </header>
+
+<!-- Mobile Navigation Overlay -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay">
+  <div class="mobile-nav-content" id="mobileNavContent">
+    <!-- Logo Section -->
+    <div class="mobile-logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" role="button" tabindex="0" aria-label="Retour à l'accueil">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">Quincaillerie</span>
+      <span class="logo-accent">Shop</span>
+    </div>
+    
+    <!-- Search Section -->
+    <div class="mobile-search-wrapper">
+      <span class="search-icon" aria-hidden="true">🔍</span>
+      <input type="search" id="mobileSearchBar" placeholder="Rechercher des outils..." aria-label="Rechercher des produits">
+    </div>
+    
+    <!-- Navigation Links -->
+    <nav role="navigation" aria-label="Navigation mobile">
+      <a href="#accueil">🏠 Accueil</a>
+      <a href="#categories">📂 Catégories</a>
+      <a href="#produits">🛍️ Produits</a>
+      <a href="#contact">📞 Contact</a>
+    </nav>
+    
+    <!-- Action Buttons -->
+    <div class="mobile-actions">
+      <button class="btn btn-primary mobile-action-btn" onclick="openCart(); closeMobileNav();" style="position:relative" aria-label="Ouvrir le panier">
+        🛒 Panier
+        <span class="cart-badge" id="mobileCartBadge" style="display:none" aria-live="polite">0</span>
+      </button>
+      
+      <button class="btn btn-outline mobile-action-btn" onclick="openWishlist(); closeMobileNav();" aria-label="Ouvrir la liste de souhaits">
+        ❤️ <span id="mobileWishlistCount">0</span> Favoris
+      </button>
+      
+      <button class="btn mobile-theme-btn" onclick="toggleTheme(); closeMobileNav();" aria-label="Changer le thème">
+        <span id="mobileThemeIcon">🌙</span> Mode
+      </button>
+    </div>
+  </div>
+</div>
 
 <main id="main-content" role="main">
   <section class="hero" id="accueil" aria-labelledby="hero-title">
