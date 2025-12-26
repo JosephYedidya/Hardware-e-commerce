@@ -268,16 +268,25 @@
       <a href="#">Garantie</a>
       <a href="#">FAQ</a>
       <a href="#">Support</a>
+      <button class="btn btn-outline footer-action-btn" onclick="showBottomOverlay()" style="margin-top: 10px;">
+        💬 Aide Rapide
+      </button>
     </div>
     <div class="footer-section">
       <h4>Nous Contacter</h4>
       <p>📞 +237 6XX XXX XXX</p>
       <p>✉️ contact@quincaillerie.cm</p>
       <p>📍 Douala, Cameroun</p>
+      <button class="btn btn-primary footer-action-btn" onclick="document.getElementById('produits').scrollIntoView({behavior:'smooth'})" style="margin-top: 10px;">
+        🛍️ Voir Produits
+      </button>
     </div>
   </div>
   <div class="footer-bottom">
     <p>© 2025 Quincaillerie Shop. Tous droits réservés. Fait avec ❤️ au Cameroun</p>
+    <button class="footer-back-to-top" onclick="scrollToTop()" aria-label="Retour en haut de la page">
+      ⬆️ Remonter en haut
+    </button>
   </div>
 </footer>
 
@@ -445,11 +454,23 @@
   <button class="clear-compare-btn" onclick="clearComparison()" aria-label="Effacer la comparaison">✕</button>
 </div>
 
-<button id="backToTop" aria-label="Retour en haut de la page">⬆️</button>
-
 <div id="promoBanner" role="banner" aria-label="Bannière promotionnelle">
   🎉 OFFRE SPÉCIALE: -50% sur tous les outils ce week-end! 
   <button onclick="closePromo()" aria-label="Fermer la bannière">✕ Fermer</button>
+</div>
+
+<!-- Bottom Overlay - Panneau en bas de page -->
+<div class="bottom-overlay" id="bottomOverlay" role="region" aria-label="Panneau d'information en bas">
+  <div class="bottom-overlay-content">
+    <div class="bottom-overlay-text">
+      <h3>🔔 Information Importante</h3>
+      <p>Votre overlay personnalisé en bas de page. Vous pouvez y mettre ce que vous voulez !</p>
+    </div>
+    <div class="bottom-overlay-actions">
+      <button class="btn btn-outline" onclick="closeBottomOverlay()">Fermer</button>
+      <button class="btn btn-primary" onclick="actionOverlay()">Action</button>
+    </div>
+  </div>
 </div>
 
 <!-- Scripts -->

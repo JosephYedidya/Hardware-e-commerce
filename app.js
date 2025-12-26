@@ -25,6 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('promoBanner').classList.add('visible');
     }, 3000);
   }
+
+  // Show bottom overlay after delay (example)
+  if (!sessionStorage.getItem('bottomOverlayShown')) {
+    setTimeout(() => {
+      showBottomOverlay();
+    }, 5000); // Show after 5 seconds
+  }
 });
 
 // ===== EVENT LISTENERS =====
@@ -60,12 +67,6 @@ function setupEventListeners() {
   // Header scroll effect
   window.addEventListener('scroll', () => {
     document.querySelector('header').classList.toggle('scrolled', window.scrollY > 100);
-    document.getElementById('backToTop').classList.toggle('visible', window.scrollY > 500);
-  });
-
-  // Back to top button
-  document.getElementById('backToTop').addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
   // Contact form submission
@@ -876,4 +877,125 @@ function closeMobileNav() {
   
   // Restore body scroll
   document.body.style.overflow = '';
+}
+
+// ===== BOTTOM OVERLAY FUNCTIONS =====
+/**
+ * Affiche l'overlay en bas de page
+ */
+function showBottomOverlay() {
+  const overlay = document.getElementById('bottomOverlay');
+  if (overlay) {
+    overlay.classList.add('visible');
+    sessionStorage.setItem('bottomOverlayShown', 'true');
+  }
+}
+
+/**
+ * Cache l'overlay en bas de page
+ */
+function closeBottomOverlay() {
+  const overlay = document.getElementById('bottomOverlay');
+  if (overlay) {
+    overlay.classList.remove('visible');
+  }
+}
+
+/**
+ * Action personnalisée pour l'overlay
+ */
+function actionOverlay() {
+  // Vous pouvez personnaliser cette fonction selon vos besoins
+  showToast('🎯 Action de l\'overlay exécutée!', 'success');
+  
+  // Exemple d'actions possibles :
+  // - Ouvrir un modal
+  // - Rediriger vers une page
+  // - Déclencher une fonction
+  // - Etc.
+  
+  // Fermer l'overlay après l'action
+  closeBottomOverlay();
+}
+
+/**
+ * Met à jour le contenu de l'overlay
+ * @param {string} title - Le titre de l'overlay
+ * @param {string} message - Le message de l'overlay
+ * @param {Array} actions - Les actions disponibles (boutons)
+ */
+function updateBottomOverlay(title, message, actions = []) {
+  const overlay = document.getElementById('bottomOverlay');
+  if (!overlay) return;
+  
+  const textContainer = overlay.querySelector('.bottom-overlay-text');
+  const actionsContainer = overlay.querySelector('.bottom-overlay-actions');
+  
+  if (textContainer) {
+    textContainer.innerHTML = `
+      <h3>${sanitizeInput(title)}</h3>
+      <p>${sanitizeInput(message)}</p>
+    `;
+  }
+  
+  if (actionsContainer && actions.length > 0) {
+    actionsContainer.innerHTML = actions.map(action => `
+      <button class="btn ${action.type || 'btn-outline'}" onclick="${action.onclick}">
+        ${action.text}
+      </button>
+    `).join('');
+  }
+}
+
+/**
+ * Programme l'affichage automatique de l'overlay
+ * @param {number} delay - Délai en millisecondes
+ * @param {string} title - Titre personnalisé
+ * @param {string} message - Message personnalisé
+ */
+function scheduleBottomOverlay(delay = 10000, title = null, message = null) {
+  setTimeout(() => {
+    if (title && message) {
+      updateBottomOverlay(title, message);
+    }
+    showBottomOverlay();
+  }, delay);
+}
+
+/**
+ * Fonction pour remonter en haut de la page
+ */
+function scrollToTop() {
+  // Détecter si on est sur mobile (petits écrans)
+  const isMobile = window.innerWidth <= 768;
+  const duration = isMobile ? 15000 : 800; // Ultra lent sur mobile (15 secondes)
+  
+  // Animation personnalisée ultra lente sur mobile
+  if (isMobile) {
+    const startPosition = window.pageYOffset;
+    const startTime = performance.now();
+    
+    function animate(currentTime) {
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      
+      // Courbe d'animation ease-out ultra-lente et extrêmement douce
+      const easeOutSine = Math.cos((progress * Math.PI) / 2);
+      const currentPosition = startPosition * (1 - easeOutSine);
+      
+      window.scrollTo(0, currentPosition);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    }
+    
+    requestAnimationFrame(animate);
+  } else {
+    // Animation standard pour desktop
+    window.scrollTo({ 
+      top: 0, 
+      behavior: 'smooth' 
+    });
+  }
 }

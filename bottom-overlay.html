@@ -1,0 +1,51 @@
+<!-- Exemple d'utilisation de l'overlay en bas -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exemple d'Overlay en Bas</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+<!-- Contenu principal de la page -->
+<main style="min-height: 100vh; padding: 20px;">
+  <h1>Contenu de la page</h1>
+  <p>Voici le contenu principal de votre site...</p>
+</main>
+
+<!-- Overlay en bas de page -->
+<div class="bottom-overlay" id="bottomOverlay" role="region" aria-label="Panneau d'information en bas">
+  <div class="bottom-overlay-content">
+    <div class="bottom-overlay-text">
+      <h3>🔔 Information Importante</h3>
+      <p>Votre overlay personnalisé en bas de page. Vous pouvez y mettre ce que vous voulez !</p>
+    </div>
+    <div class="bottom-overlay-actions">
+      <button class="btn btn-outline" onclick="closeBottomOverlay()">Fermer</button>
+      <button class="btn btn-primary" onclick="actionOverlay()">Action</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Fonction pour fermer l'overlay
+function closeBottomOverlay() {
+  document.getElementById('bottomOverlay').classList.remove('visible');
+}
+
+// Fonction pour l'action de l'overlay
+function actionOverlay() {
+  alert('Action de l\'overlay exécutée !');
+  closeBottomOverlay();
+}
+
+// Afficher l'overlay après 3 secondes (exemple)
+setTimeout(() => {
+  document.getElementById('bottomOverlay').classList.add('visible');
+}, 3000);
+</script>
+
+</body>
+</html>
