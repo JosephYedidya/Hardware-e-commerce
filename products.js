@@ -8,12 +8,7 @@ const productsData = [
       id: 1,
       name: "Scie Circulaire ProMax",
       desc: "Puissante scie de 1200W idéale pour la découpe du bois et du métal.",
-      price: {
-        base: 45000,
-        discounted: 31500,
-        currency: "FCFA",
-        vat: 19.25
-      },
+      price: 15000,
       category: "electric",
       images: [
         "./coupe-de-bois-avec-une-scie-electrique.jpg",

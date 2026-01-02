@@ -2,7 +2,6 @@
  * Main Application Logic
  * Handles all e-commerce functionality
  */
-
 // ===== STATE =====
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -665,8 +664,8 @@ function setupPaymentOptions() {
     });
   });
   
-  // Setup form inputs
-  const formInputs = document.querySelectorAll('#paymentModal input, #paymentModal textarea');
+  // Setup form inputs (excluding customer info fields that were removed)
+  const formInputs = document.querySelectorAll('#paymentModal input:not([id^="customer"]), #paymentModal textarea:not([id^="customer"])');
   formInputs.forEach(input => {
     input.addEventListener('input', updateConfirmButtonState);
   });
@@ -695,14 +694,7 @@ function updateConfirmButtonState() {
     isValid = true; // No additional validation needed
   }
   
-  // Check customer info
-  const customerName = document.getElementById('customerName').value.trim();
-  const customerPhone = document.getElementById('customerPhone').value.trim();
-  const customerAddress = document.getElementById('customerAddress').value.trim();
-  
-  isValid = isValid && customerName.length > 0 && 
-                  customerPhone.length > 0 && 
-                  customerAddress.length > 0;
+  // Customer info validation removed - no longer required
   
   confirmBtn.disabled = !isValid;
 }
@@ -713,8 +705,8 @@ function resetPaymentForm() {
     opt.classList.remove('selected');
   });
   
-  // Reset form inputs
-  document.querySelectorAll('#paymentModal input, #paymentModal textarea').forEach(input => {
+  // Reset form inputs (excluding customer info fields that were removed)
+  document.querySelectorAll('#paymentModal input:not([id^="customer"]), #paymentModal textarea:not([id^="customer"])').forEach(input => {
     input.value = '';
   });
   
@@ -735,12 +727,7 @@ function confirmPayment() {
   btnText.style.display = 'none';
   btnLoading.style.display = 'inline';
   
-  // Get customer info
-  const customerInfo = {
-    name: document.getElementById('customerName').value.trim(),
-    phone: document.getElementById('customerPhone').value.trim(),
-    address: document.getElementById('customerAddress').value.trim()
-  };
+  // Customer info removed - no longer required
   
   // Get payment method specific info
   let paymentInfo = {};

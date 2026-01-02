@@ -415,25 +415,7 @@
             </div>
           </div>
         </div>
-        
-        <div class="customer-info">
-          <h3>Informations de livraison</h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="customerName">Nom complet *</label>
-              <input type="text" id="customerName" required>
-            </div>
-            <div class="form-group">
-              <label for="customerPhone">Téléphone *</label>
-              <input type="tel" id="customerPhone" required>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="customerAddress">Adresse de livraison *</label>
-            <textarea id="customerAddress" placeholder="Ville, Quartier, Rue, Numéro..." required></textarea>
-          </div>
-        </div>
-        
+
         <div class="payment-actions">
           <button type="button" class="btn btn-outline" onclick="closePayment()">Annuler</button>
           <button type="button" class="btn btn-primary" id="confirmPaymentBtn" onclick="confirmPayment()">
@@ -457,19 +439,9 @@
 <div id="promoBanner" role="banner" aria-label="Bannière promotionnelle">
   🎉 OFFRE SPÉCIALE: -50% sur tous les outils ce week-end! 
   <button onclick="closePromo()" aria-label="Fermer la bannière">✕ Fermer</button>
-</div>
+    </div>
 
-<!-- Bottom Overlay - Panneau en bas de page -->
-<div class="bottom-overlay" id="bottomOverlay" role="region" aria-label="Panneau d'information en bas">
-  <div class="bottom-overlay-content">
-    <div class="bottom-overlay-text">
-      <h3>🔔 Information Importante</h3>
-      <p>Votre overlay personnalisé en bas de page. Vous pouvez y mettre ce que vous voulez !</p>
-    </div>
-    <div class="bottom-overlay-actions">
-      <button class="btn btn-outline" onclick="closeBottomOverlay()">Fermer</button>
-      <button class="btn btn-primary" onclick="actionOverlay()">Action</button>
-    </div>
+
   </div>
 </div>
 
