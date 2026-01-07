@@ -84,6 +84,7 @@ function setupEventListeners() {
   // Escape key to close modals
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      // Close other modals
       document.querySelectorAll('.modal.active').forEach(modal => {
         modal.classList.remove('active');
         document.body.style.overflow = '';
