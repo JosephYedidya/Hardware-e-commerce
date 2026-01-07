@@ -3836,22 +3836,6 @@
        justify-content: center;
      }
      
-     /* Comparison bar for small screens */
-     .comparison-bar {
-       width: 95%;
-       padding: 12px;
-       bottom: 70px;
-     }
-     
-     .comparison-items {
-       gap: 6px;
-     }
-     
-     .comparison-item {
-       width: 40px;
-       height: 40px;
-     }
-     
      /* Contact form for small screens */
      .contact-form {
        padding: 16px;
@@ -4192,4 +4176,6 @@
       gap: 20px;
     }
   }
+  
+
   
