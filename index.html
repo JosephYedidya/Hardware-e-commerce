@@ -474,6 +474,145 @@
   </div>
 </div>
 
+<!-- PWA Service Worker Registration -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(registration) {
+        console.log('[SW] Registered successfully:', registration.scope);
+
+        // Handle service worker updates
+        registration.addEventListener('updatefound', function() {
+          const newWorker = registration.installing;
+          newWorker.addEventListener('statechange', function() {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New version available
+              showUpdateNotification();
+            }
+          });
+        });
+      })
+      .catch(function(error) {
+        console.log('[SW] Registration failed:', error);
+      });
+  });
+}
+
+// Function to show update notification
+function showUpdateNotification() {
+  // Create a simple update notification
+  const updateDiv = document.createElement('div');
+  updateDiv.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--gradient-primary);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  `;
+  updateDiv.innerHTML = '🔄 Nouvelle version disponible! Cliquez pour mettre à jour.';
+  updateDiv.onclick = function() {
+    window.location.reload();
+  };
+
+  // Auto-hide after 10 seconds
+  setTimeout(() => {
+    if (updateDiv.parentNode) {
+      updateDiv.style.opacity = '0';
+      setTimeout(() => updateDiv.remove(), 300);
+    }
+  }, 10000);
+
+  document.body.appendChild(updateDiv);
+}
+
+// Handle PWA install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', function(e) {
+  console.log('[PWA] Install prompt triggered');
+  e.preventDefault();
+  deferredPrompt = e;
+
+  // Show custom install button or notification
+  showInstallNotification();
+});
+
+function showInstallNotification() {
+  const installDiv = document.createElement('div');
+  installDiv.id = 'pwa-install-prompt';
+  installDiv.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: var(--gradient-accent);
+    color: #000;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(255, 180, 0, 0.3);
+    z-index: 10000;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  `;
+  installDiv.innerHTML = '📱 Installer l\'app <span style="font-size: 20px;">⚡</span>';
+
+  installDiv.onclick = async function() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log('[PWA] Install outcome:', outcome);
+      deferredPrompt = null;
+      installDiv.remove();
+    }
+  };
+
+  // Close button
+  const closeBtn = document.createElement('span');
+  closeBtn.innerHTML = '✕';
+  closeBtn.style.cssText = `
+    margin-left: 10px;
+    cursor: pointer;
+    opacity: 0.7;
+    font-size: 16px;
+  `;
+  closeBtn.onclick = function(e) {
+    e.stopPropagation();
+    installDiv.remove();
+  };
+  installDiv.appendChild(closeBtn);
+
+  document.body.appendChild(installDiv);
+
+  // Auto-hide after 15 seconds
+  setTimeout(() => {
+    if (installDiv.parentNode) {
+      installDiv.style.opacity = '0';
+      setTimeout(() => installDiv.remove(), 300);
+    }
+  }, 15000);
+}
+
+// Handle successful app installation
+window.addEventListener('appinstalled', function(e) {
+  console.log('[PWA] App installed successfully');
+  // Hide install prompt if visible
+  const installPrompt = document.getElementById('pwa-install-prompt');
+  if (installPrompt) {
+    installPrompt.remove();
+  }
+});
+</script>
+
 <!-- Scripts -->
 <script src="./products.js"></script>
 <script src="app.js"></script>
