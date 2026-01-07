@@ -1414,26 +1414,27 @@
   /* ===== COMPARISON BAR ===== */
   .comparison-bar {
     position: fixed;
-    bottom: 80px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%) translateY(150%) scale(0.9);
     background: var(--bg-secondary);
-    padding: 18px 26px;
-    border-radius: 20px;
+    padding: 14px 22px;
+    border-radius: 16px;
     box-shadow: 0 15px 50px var(--shadow-lg);
     display: flex;
     align-items: center;
-    gap: 18px;
-    z-index: 999;
+    gap: 14px;
+    z-index: 998;
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     border: 2px solid var(--border);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
+    max-width: 95vw;
   }
   
   .comparison-bar.visible {
     transform: translateX(-50%) translateY(0) scale(1);
-    animation: comparison-bar-slide-in 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: comparison-bar-slide-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
   
   @keyframes comparison-bar-slide-in {
