@@ -1442,9 +1442,9 @@
       transform: translateX(-50%) translateY(150%) scale(0.9); 
       opacity: 0; 
     }
-    50% { 
-      transform: translateX(-50%) translateY(-10%) scale(1.05); 
-      opacity: 0.8; 
+    60% { 
+      transform: translateX(-50%) translateY(-5%) scale(1.02); 
+      opacity: 0.9; 
     }
     100% { 
       transform: translateX(-50%) translateY(0) scale(1); 
@@ -1459,7 +1459,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 20px;
+    border-radius: 16px;
     background: linear-gradient(45deg, var(--primary), var(--accent), var(--primary));
     background-size: 200% 200%;
     animation: gradient-border 3s ease infinite;
@@ -1474,7 +1474,7 @@
     right: 2px;
     bottom: 2px;
     background: var(--bg-secondary);
-    border-radius: 18px;
+    border-radius: 14px;
     z-index: -1;
   }
   
@@ -1485,24 +1485,27 @@
   
   .comparison-bar-label {
     font-weight: 700;
+    font-size: 14px;
     color: var(--text);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    white-space: nowrap;
   }
   
   .comparison-items {
     display: flex;
-    gap: 8px;
+    gap: 6px;
   }
   
   .comparison-item {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
     overflow: hidden;
     border: 2px solid var(--border);
     background: var(--bg);
+    flex-shrink: 0;
   }
   
   .comparison-item img {
@@ -1517,41 +1520,46 @@
     align-items: center;
     justify-content: center;
     color: var(--text-secondary);
-    font-size: 20px;
+    font-size: 18px;
   }
   
   .compare-now-btn {
-    padding: 10px 20px;
+    padding: 10px 18px;
     background: var(--gradient-primary);
     color: white;
     border: none;
     border-radius: 8px;
     font-weight: 700;
+    font-size: 13px;
     cursor: pointer;
     transition: all 0.3s ease;
+    white-space: nowrap;
   }
   
   .compare-now-btn:hover {
     transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(11, 61, 145, 0.3);
   }
   
   .compare-now-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
   }
   
   .clear-compare-btn {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
     background: transparent;
     border: 2px solid var(--border);
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
   
   .clear-compare-btn:hover {
